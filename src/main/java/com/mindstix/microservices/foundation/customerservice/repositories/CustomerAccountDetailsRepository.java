@@ -6,6 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CustomerAccountDetailsRepository extends JpaRepository<CustomerAccountDetails, Integer> {
-
-
+    
 }
