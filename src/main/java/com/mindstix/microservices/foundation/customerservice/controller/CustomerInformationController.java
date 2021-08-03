@@ -1,15 +1,11 @@
 package com.mindstix.microservices.foundation.customerservice.controller;
 
-
 import com.mindstix.microservices.foundation.customerservice.exception.CustomerServiceExceptions;
+import com.mindstix.microservices.foundation.customerservice.model.CustomerAccountInformationModel;
 import com.mindstix.microservices.foundation.customerservice.model.CustomerInformationModel;
 import com.mindstix.microservices.foundation.customerservice.service.CustomerInformationService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RequestMapping("/customer-service/")
@@ -29,5 +25,13 @@ public class CustomerInformationController {
             return ResponseEntity.of(Optional.of(message));
         }
         throw new CustomerServiceExceptions("Email Id is already Exists");
+    }
+    @GetMapping("/customer/{emailId}")
+    public ResponseEntity<CustomerAccountInformationModel> getCustomerDetails(@PathVariable String emailId){
+        Optional<CustomerAccountInformationModel> customerResource = customerInformationService.getCustomerDetails(emailId);
+        if(customerResource.isPresent()){
+            return ResponseEntity.of(customerResource);
+        }
+        return ResponseEntity.notFound().build();
     }
 }

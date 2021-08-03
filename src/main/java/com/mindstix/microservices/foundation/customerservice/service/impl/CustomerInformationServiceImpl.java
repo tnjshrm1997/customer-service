@@ -1,6 +1,7 @@
 package com.mindstix.microservices.foundation.customerservice.service.impl;
 
 import com.mindstix.microservices.foundation.customerservice.entity.CustomerInformation;
+import com.mindstix.microservices.foundation.customerservice.model.CustomerAccountInformationModel;
 import com.mindstix.microservices.foundation.customerservice.model.CustomerInformationModel;
 import com.mindstix.microservices.foundation.customerservice.repositories.CustomerInformationRepository;
 import com.mindstix.microservices.foundation.customerservice.service.CustomerAccountService;
@@ -39,6 +40,17 @@ public class CustomerInformationServiceImpl implements CustomerInformationServic
             LOGGER.error("Exception occurred while inserting customer: {}",e.getMessage());
         }
         return Optional.ofNullable(accountNumber);
+    }
+
+    @Override
+    public Optional<CustomerAccountInformationModel> getCustomerDetails(String emailId) {
+        Optional<CustomerInformation> customerInfo = Optional.ofNullable(customerInformationRepository.findByEmail(emailId));
+        CustomerAccountInformationModel accountInformation= null;
+        if(customerInfo.isPresent()){
+            LOGGER.info("Customer found with given email: {}",emailId);
+            accountInformation = CustomerInformationService.toCustomerDetail(customerInfo.get());
+        }
+        return Optional.ofNullable(accountInformation);
     }
 
 }

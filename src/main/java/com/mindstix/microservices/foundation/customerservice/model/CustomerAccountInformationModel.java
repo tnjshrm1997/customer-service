@@ -3,6 +3,8 @@ package com.mindstix.microservices.foundation.customerservice.model;
 
 import lombok.*;
 
+import java.math.BigDecimal;
+
 
 @Data
 @NoArgsConstructor
@@ -12,5 +14,5 @@ public class CustomerAccountInformationModel {
     private String customerName;
     private String email;
     private Long accountNumber;
-    private double accountBalance;
+    private BigDecimal accountBalance;
 }
