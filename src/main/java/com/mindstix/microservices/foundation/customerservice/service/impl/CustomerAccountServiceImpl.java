@@ -6,11 +6,10 @@ import com.mindstix.microservices.foundation.customerservice.repositories.Custom
 import com.mindstix.microservices.foundation.customerservice.service.CustomerAccountService;
 import org.springframework.stereotype.Service;
 
+
 @Service
 public class CustomerAccountServiceImpl implements CustomerAccountService {
-
     final CustomerAccountDetailsRepository customerAccountDetailsRepository;
-
     public CustomerAccountServiceImpl(CustomerAccountDetailsRepository customerAccountDetailsRepository) {
         this.customerAccountDetailsRepository = customerAccountDetailsRepository;
     }
@@ -21,4 +20,6 @@ public class CustomerAccountServiceImpl implements CustomerAccountService {
         customerAccountDetailsRepository.save(accountDetails);
         return accountDetails.getAccountNumber();
     }
+
+
 }

@@ -17,7 +17,7 @@ public class CustomerInformationController {
     public CustomerInformationController(CustomerInformationService customerInformationService) {
         this.customerInformationService = customerInformationService;
     }
-    @PostMapping("/customers")
+    @PostMapping("/customer")
     public ResponseEntity<String> createCustomer(@RequestBody CustomerInformationModel customerInformation){
         Optional<Long> accountNumber = customerInformationService.createNewCustomer(customerInformation);
         if(accountNumber.isPresent()){

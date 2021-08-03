@@ -10,6 +10,9 @@ public interface CustomerInformationService {
 
     Optional<Long> createNewCustomer(CustomerInformationModel customerInformation);
     Optional<CustomerAccountInformationModel> getCustomerDetails(String emailId);
+    CustomerInformation getCustomerByEmailId(String emailId);
+    Long getCustomerAccountNumber(String emailId);
+
     static CustomerInformation toCustomerInformation(CustomerInformationModel customerInfo){
         return CustomerInformation
                 .builder()
@@ -27,4 +30,5 @@ public interface CustomerInformationService {
         customerDetail.setAccountBalance(customerInformation.getCustomerAccountDetails().getAccountBalance());
         return customerDetail;
     }
+
 }

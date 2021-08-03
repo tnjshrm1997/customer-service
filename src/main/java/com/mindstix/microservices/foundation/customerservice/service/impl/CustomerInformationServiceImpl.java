@@ -27,7 +27,7 @@ public class CustomerInformationServiceImpl implements CustomerInformationServic
 
         Long accountNumber = null;
         try{
-            if(customerInformationRepository.findByEmail(customerInformationModel.getEmail())!=null){
+            if(getCustomerByEmailId(customerInformationModel.getEmail())!=null){
                 LOGGER.debug("User is already exists in system");
                 return Optional.empty();
             }
@@ -44,7 +44,7 @@ public class CustomerInformationServiceImpl implements CustomerInformationServic
 
     @Override
     public Optional<CustomerAccountInformationModel> getCustomerDetails(String emailId) {
-        Optional<CustomerInformation> customerInfo = Optional.ofNullable(customerInformationRepository.findByEmail(emailId));
+        Optional<CustomerInformation> customerInfo = Optional.ofNullable(getCustomerByEmailId(emailId));
         CustomerAccountInformationModel accountInformation= null;
         if(customerInfo.isPresent()){
             LOGGER.info("Customer found with given email: {}",emailId);
@@ -52,5 +52,22 @@ public class CustomerInformationServiceImpl implements CustomerInformationServic
         }
         return Optional.ofNullable(accountInformation);
     }
+
+    @Override
+    public Long getCustomerAccountNumber(String emailId) {
+        Optional<CustomerInformation> customerInformation = Optional.ofNullable(getCustomerByEmailId(emailId));
+        Long accountNumber = null;
+        if(customerInformation.isPresent()){
+            LOGGER.info("User found in system");
+            accountNumber =  customerInformation.get().getCustomerAccountDetails().getAccountNumber();
+        }
+        return accountNumber;
+    }
+
+    @Override
+    public CustomerInformation getCustomerByEmailId(String emailId) {
+        return customerInformationRepository.findByEmail(emailId);
+    }
+
 
 }
