@@ -3,9 +3,10 @@ package com.mindstix.microservices.foundation.customerservice.service.impl;
 import com.mindstix.microservices.foundation.customerservice.entity.CustomerInformation;
 import com.mindstix.microservices.foundation.customerservice.model.CustomerAccountInformationModel;
 import com.mindstix.microservices.foundation.customerservice.model.CustomerInformationModel;
-import com.mindstix.microservices.foundation.customerservice.repositories.CustomerInformationRepository;
+import com.mindstix.microservices.foundation.customerservice.dao.CustomerInformationDao;
 import com.mindstix.microservices.foundation.customerservice.service.CustomerAccountService;
 import com.mindstix.microservices.foundation.customerservice.service.CustomerInformationService;
+import com.mindstix.microservices.foundation.customerservice.utlities.ConvertToObjectUtility;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -15,10 +16,10 @@ import java.util.Optional;
 @Service
 public class CustomerInformationServiceImpl implements CustomerInformationService {
     private static final Logger LOGGER = LoggerFactory.getLogger(CustomerInformationServiceImpl.class);
-    final CustomerInformationRepository customerInformationRepository;
+    final CustomerInformationDao customerInformationDao;
     final CustomerAccountService customerAccountService;
-    public CustomerInformationServiceImpl(CustomerInformationRepository customerInformationRepository, CustomerAccountService customerAccountService) {
-        this.customerInformationRepository = customerInformationRepository;
+    public CustomerInformationServiceImpl(CustomerInformationDao customerInformationDao, CustomerAccountService customerAccountService) {
+        this.customerInformationDao = customerInformationDao;
         this.customerAccountService = customerAccountService;
     }
 
@@ -31,8 +32,8 @@ public class CustomerInformationServiceImpl implements CustomerInformationServic
                 LOGGER.debug("User is already exists in system");
                 return Optional.empty();
             }
-            CustomerInformation customerInfo = CustomerInformationService.toCustomerInformation(customerInformationModel);
-            customerInformationRepository.save(customerInfo);
+            CustomerInformation customerInfo = ConvertToObjectUtility.toCustomerInformation(customerInformationModel);
+            customerInformationDao.save(customerInfo);
             accountNumber = customerAccountService.saveCustomerAccount(customerInfo);
             LOGGER.info("User is created with account number: {}",accountNumber);
             return Optional.ofNullable(accountNumber);
@@ -48,7 +49,7 @@ public class CustomerInformationServiceImpl implements CustomerInformationServic
         CustomerAccountInformationModel accountInformation= null;
         if(customerInfo.isPresent()){
             LOGGER.info("Customer found with given email: {}",emailId);
-            accountInformation = CustomerInformationService.toCustomerDetail(customerInfo.get());
+            accountInformation = ConvertToObjectUtility.toCustomerDetail(customerInfo.get());
         }
         return Optional.ofNullable(accountInformation);
     }
@@ -66,7 +67,7 @@ public class CustomerInformationServiceImpl implements CustomerInformationServic
 
     @Override
     public CustomerInformation getCustomerByEmailId(String emailId) {
-        return customerInformationRepository.findByEmail(emailId);
+        return customerInformationDao.findByEmail(emailId);
     }
 
 

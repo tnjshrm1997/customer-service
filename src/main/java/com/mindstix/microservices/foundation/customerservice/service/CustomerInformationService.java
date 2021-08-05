@@ -13,22 +13,4 @@ public interface CustomerInformationService {
     CustomerInformation getCustomerByEmailId(String emailId);
     Long getCustomerAccountNumber(String emailId);
 
-    static CustomerInformation toCustomerInformation(CustomerInformationModel customerInfo){
-        return CustomerInformation
-                .builder()
-                .customerName(customerInfo.getCustomerName())
-                .email(customerInfo.getEmail())
-                .contact(customerInfo.getContact())
-                .build();
-    }
-
-     static CustomerAccountInformationModel toCustomerDetail(CustomerInformation customerInformation) {
-        CustomerAccountInformationModel customerDetail = new CustomerAccountInformationModel();
-        customerDetail.setCustomerName(customerInformation.getCustomerName());
-        customerDetail.setEmail(customerInformation.getEmail());
-        customerDetail.setAccountNumber(customerInformation.getCustomerAccountDetails().getAccountNumber());
-        customerDetail.setAccountBalance(customerInformation.getCustomerAccountDetails().getAccountBalance());
-        return customerDetail;
-    }
-
 }
