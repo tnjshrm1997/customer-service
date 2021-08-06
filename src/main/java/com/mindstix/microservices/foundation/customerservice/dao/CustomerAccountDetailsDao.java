@@ -6,5 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CustomerAccountDetailsDao extends JpaRepository<CustomerAccountDetails, Integer> {
-    
+
+    CustomerAccountDetails findByAccountNumber(Long accountNumber);
 }

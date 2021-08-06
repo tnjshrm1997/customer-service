@@ -70,5 +70,4 @@ public class CustomerInformationServiceImpl implements CustomerInformationServic
         return customerInformationDao.findByEmail(emailId);
     }
 
-
 }
