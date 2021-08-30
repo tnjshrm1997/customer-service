@@ -9,7 +9,6 @@ import java.util.List;
 
 @Repository
 public interface CustomerAccountDetailsDao extends JpaRepository<CustomerAccountDetails, Integer> {
-
     CustomerAccountDetails findByAccountNumber(Long accountNumber);
     List<CustomerAccountDetails> findByAccountBalanceGreaterThan(BigDecimal amount);
 }
