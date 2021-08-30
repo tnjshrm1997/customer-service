@@ -7,7 +7,10 @@ import com.microservices.foundation.customerservice.model.CustomerInformationMod
 
 import java.math.BigDecimal;
 
-public class ConvertToObjectUtility {
+ public class ConvertToObjectUtility {
+    private ConvertToObjectUtility(){
+       throw new IllegalStateException("Utility class");
+    }
     public static CustomerAccountDetails toCustomerAccountDetails(CustomerInformation customerInformation){
         return CustomerAccountDetails
                 .builder()
@@ -34,4 +37,14 @@ public class ConvertToObjectUtility {
                 .accountBalance(customerInformation.getCustomerAccountDetails().getAccountBalance())
                 .build();
     }
-}
+
+     public static CustomerAccountInformationModel toCustomerAccountObject(CustomerAccountDetails customerAccountDetails) {
+         return CustomerAccountInformationModel
+                 .builder()
+                 .customerName(customerAccountDetails.getFkCustomerInformationId().getCustomerName())
+                 .email(customerAccountDetails.getFkCustomerInformationId().getEmail())
+                 .accountNumber(customerAccountDetails.getAccountNumber())
+                 .accountBalance(customerAccountDetails.getAccountBalance())
+                 .build();
+     }
+ }

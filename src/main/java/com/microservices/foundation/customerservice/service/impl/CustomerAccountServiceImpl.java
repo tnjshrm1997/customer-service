@@ -2,6 +2,7 @@ package com.microservices.foundation.customerservice.service.impl;
 
 import com.microservices.foundation.customerservice.entity.CustomerAccountDetails;
 import com.microservices.foundation.customerservice.entity.CustomerInformation;
+import com.microservices.foundation.customerservice.model.CustomerAccountInformationModel;
 import com.microservices.foundation.customerservice.utlities.ConvertToObjectUtility;
 import com.microservices.foundation.transactionservice.model.CustomerTransactionDetailQueueResource;
 import com.microservices.foundation.customerservice.dao.CustomerAccountDetailsDao;
@@ -11,7 +12,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -44,5 +47,23 @@ public class CustomerAccountServiceImpl implements CustomerAccountService {
         }
     }
 
+    @Override
+    public List<CustomerAccountInformationModel> getCustomerGreaterAmount(BigDecimal amount) {
+        List<CustomerAccountDetails> customerAccountDetails = customerAccountDetailsDao.findByAccountBalanceGreaterThan(amount);
+        return customerAccountDetails
+                .stream()
+                .map(ConvertToObjectUtility::toCustomerAccountObject)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<CustomerAccountInformationModel> getCustomerLessAmount(BigDecimal amount) {
+        List<CustomerAccountDetails> customerAccountDetails = customerAccountDetailsDao.findAll();
+        return customerAccountDetails
+                .stream()
+                .filter(custAcct -> custAcct.getAccountBalance().compareTo(amount)<0)
+                .map(ConvertToObjectUtility::toCustomerAccountObject)
+                .collect(Collectors.toList());
+    }
 
 }

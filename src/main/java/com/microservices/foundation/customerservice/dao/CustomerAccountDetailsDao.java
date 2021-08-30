@@ -4,8 +4,12 @@ import com.microservices.foundation.customerservice.entity.CustomerAccountDetail
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
+import java.util.List;
+
 @Repository
 public interface CustomerAccountDetailsDao extends JpaRepository<CustomerAccountDetails, Integer> {
 
     CustomerAccountDetails findByAccountNumber(Long accountNumber);
+    List<CustomerAccountDetails> findByAccountBalanceGreaterThan(BigDecimal amount);
 }

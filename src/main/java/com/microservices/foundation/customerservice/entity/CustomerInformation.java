@@ -8,8 +8,7 @@ import javax.validation.constraints.Email;
 import javax.persistence.*;
 import java.sql.Timestamp;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
